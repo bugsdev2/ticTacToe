@@ -1,0 +1,11 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "live-server"
+  },
+  "author": "BugsDev2",
+  "license": "GPL-3.0"
+}
