@@ -7,5 +7,9 @@
     "test": "live-server"
   },
   "author": "BugsDev2",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "bootstrap-icons": "^1.11.1"
+  }
 }
