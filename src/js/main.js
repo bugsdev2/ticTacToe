@@ -1,2 +1,2 @@
-import { test } from '/src/js/test.js';
+import { tic } from '/src/js/tic.js';
 
