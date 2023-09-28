@@ -29,24 +29,30 @@ export const tic = (function() {
 		let activePlayer = players[0];
 		
 		//function to switch player
-		const getActivePlayer = () => {
+		const switchPlayer = () => {
 			activePlayer === players[0] ? activePlayer = players[1] : activePlayer = players[0];
 			return activePlayer;
 		}
-		
-		activePlayer = getActivePlayer();
 		const boardElem = document.querySelector('.board');
 		const currentPlayerElem = document.querySelector('.current-player');
-		boardElem.addEventListener('click', updateTile);
-		
 		currentPlayerElem.textContent = players[0].name;
+		boardElem.addEventListener('click', updateTile);
 		boardElem.addEventListener('click', updateNameBoard);
 		
 		function updateNameBoard(e){
 			currentPlayerElem.textContent = activePlayer.name;
 		};
 		
-		return { getActivePlayer }
+		function updateTile(e) {
+		if (e.target.textContent == ' ') {
+			e.target.textContent = activePlayer.token;
+			activePlayer = switchPlayer();
+		} else {
+			return;
+		}
+	};
+		
+		return { switchPlayer }
 		
 	})();
 	
@@ -65,16 +71,5 @@ export const tic = (function() {
 		
 	})();
 	
-	function updateTile(e) {
-		
-		if (e.target.textContent == ' ') {
-			let activePlayer = GameController.getActivePlayer();
-			e.target.textContent = activePlayer.token;
-		} else {
-			return;
-		}
-		
 	
-		
-	};
 })();
