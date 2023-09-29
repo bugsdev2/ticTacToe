@@ -8,11 +8,14 @@
 		<link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css"/>
 		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" href="src/style.css" />
-		<script defer type="module" src="src/js/main.js"></script>
+		<script type="module" src="src/js/main.js"></script>
 	</head> 
 	<body class="d-flex justify-content-center align-items-center">
 		<div class="wrapper">
-			<div class="current-player text-center p-4 fs-2 mb-5"></div>
+			<div class="text-center">
+				<button class="start-game btn btn-success">Start New Game</button>
+			</div>
+			<div class="message-board text-center p-4 fs-2 mb-5"></div>
 			<div class="board"></div>
 		</div>
 	</body>

@@ -2,15 +2,43 @@ body {
 	height: 100vh;
 }
 
+.wrapper {
+	
+}
+
 .board {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(3,1fr);
 	grid-template-rows: repeat(3, 1fr);
+}
+
+.message-board {
+	font-weight: bold;
+}
+
+[data-tile] {
+	width: 8rem;
+	height: 8rem;
+	border-right: 6px solid grey;
+	border-bottom: 6px solid grey;
+	text-align: center;
+	font-size: 5rem;
+}
+
+[data-tile]:nth-child(3n) {
+	border-right: none;
+}
+
+[data-tile]:is(:nth-child(7),:nth-child(8),:nth-child(9)) {
+	border-bottom: none;
 }
 
 
 
-div[data-tile] {
+/*
+// Board based on rows and tiles
+span[data-tile] {
+	display: inline-block;
 	text-align: center;
 	width: 4rem;
 	height: 4rem;
@@ -20,10 +48,11 @@ div[data-tile] {
 	cursor: pointer;
 }
 
-div[data-tile]:nth-child(3n) {
+[data-row]>[data-tile]:nth-child(3) {
 	border-right: none;
 }
 
-div[data-tile]:is(:nth-child(7),:nth-child(8),:nth-child(9)) {
+[data-row]:nth-child(3)>[data-tile] {
 	border-bottom: none;
 }
+*/
