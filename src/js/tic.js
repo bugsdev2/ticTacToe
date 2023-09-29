@@ -22,21 +22,7 @@ export const tic = (function() {
 				tileElem.dataset.tile = 'Row-' + (rowIndex+1) + ' Tile-' + (tileIndex+1);
 				boardElem.appendChild(tileElem);
 			});
-			
-			// board based on rows and columns (having display issues)
-			
-			//~ const rowElem = document.createElement('div');
-			//~ rowElem.dataset.row = 'Row-' + (index+1);
-			//~ row.forEach((tile,index) => {
-				//~ const tileElem = document.createElement('span');
-				//~ tileElem.dataset.tile = 'Tile-' + (index+1);
-				//~ rowElem.appendChild(tileElem);
-			//~ });
-			//~ boardElem.appendChild(rowElem);
-			
 		});
-		
-		
 	})();
 	
 	const GameController = (function(playerOne = 'Player 1', playerTwo = 'Player 2') {
@@ -58,6 +44,8 @@ export const tic = (function() {
 			activePlayer === players[0] ? activePlayer = players[1] : activePlayer = players[0];
 			return activePlayer;
 		}
+		
+		
 		const boardElem = document.querySelector('.board');
 		const messageBoard = document.querySelector('.message-board');
 		messageBoard.textContent = players[0].name;
@@ -79,6 +67,7 @@ export const tic = (function() {
 					let won = winner + ' is the Winner'
 					updateNameBoard(won);
 					endGame();
+					boardElem.style.setProperty('opacity', '0.3');
 					button.textContent = 'Start New Game';
 					button.classList.remove('btn-warning');
 					button.classList.add('btn-success');
@@ -107,6 +96,7 @@ export const tic = (function() {
 		function startGame(){
 			if(button.textContent == 'Game Started') return;
 			clearBoard();
+			boardElem.style.removeProperty('opacity');
 			button.textContent = 'Game Started';
 			button.classList.remove('btn-success');
 			button.classList.add('btn-warning');
