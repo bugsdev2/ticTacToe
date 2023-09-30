@@ -23,6 +23,7 @@ export const tic = (function() {
 				boardElem.appendChild(tileElem);
 			});
 		});
+		
 	})();
 	
 	const GameController = (function(playerOne = 'Player 1', playerTwo = 'Player 2') {
@@ -61,8 +62,20 @@ export const tic = (function() {
 				e.target.textContent = activePlayer.token;
 				let winner = checkWinner();
 				if (winner === undefined) {
-					activePlayer = switchPlayer();
-					updateNameBoard(activePlayer.name);
+					let length = checkTileAvailability().length;
+					if(length == 0) {
+						updateNameBoard('It is a Tie');
+						endGame();
+						boardElem.style.setProperty('opacity', '0.3');
+						button.textContent = 'Start New Game';
+						button.classList.remove('btn-warning');
+						button.classList.add('btn-success');
+					} else {
+						console.log(length);
+						activePlayer = switchPlayer();
+						updateNameBoard(activePlayer.name);
+						checkGameState();
+					}
 				} else {
 					let won = winner + ' is the Winner'
 					updateNameBoard(won);
@@ -117,6 +130,32 @@ export const tic = (function() {
 			tiles.forEach(tile => {
 				tile.textContent = null;
 			});
+		};
+		
+		function checkGameState(){
+			const tiles = document.querySelectorAll('[data-tile]');
+			const gameState = [];
+			tiles.forEach(tile => {
+				if(tile.textContent == '') {
+					gameState.push('');
+				} else {
+					gameState.push(tile.textContent);
+				}
+			});
+			console.log(gameState);
+		};
+		
+		
+		
+		function checkTileAvailability(){
+			const tiles = document.querySelectorAll('[data-tile]');
+			const availableTiles = []; 
+			tiles.forEach(tile => {
+				if (tile.textContent === '') {
+					availableTiles.push(tile);
+				}
+			});
+			return availableTiles;
 		};
 		
 		return { startGame }
