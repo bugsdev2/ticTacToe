@@ -71,7 +71,6 @@ export const tic = (function() {
 						button.classList.remove('btn-warning');
 						button.classList.add('btn-success');
 					} else {
-						console.log(length);
 						activePlayer = switchPlayer();
 						updateNameBoard(activePlayer.name);
 						checkGameState();
@@ -100,7 +99,7 @@ export const tic = (function() {
 				tiles[2].textContent === activePlayer.token && tiles[4].textContent === activePlayer.token && tiles[6].textContent === activePlayer.token ||
 				tiles[0].textContent === activePlayer.token && tiles[3].textContent === activePlayer.token && tiles[6].textContent === activePlayer.token ||
 				tiles[1].textContent === activePlayer.token && tiles[4].textContent === activePlayer.token && tiles[7].textContent === activePlayer.token ||
-				tiles[3].textContent === activePlayer.token && tiles[5].textContent === activePlayer.token && tiles[8].textContent === activePlayer.token) {
+				tiles[2].textContent === activePlayer.token && tiles[5].textContent === activePlayer.token && tiles[8].textContent === activePlayer.token) {
 					return activePlayer.name;
 			}
 		}
@@ -132,6 +131,7 @@ export const tic = (function() {
 			});
 		};
 		
+		// function to check the current game state
 		function checkGameState(){
 			const tiles = document.querySelectorAll('[data-tile]');
 			const gameState = [];
@@ -146,7 +146,7 @@ export const tic = (function() {
 		};
 		
 		
-		
+		// function to check available tiles
 		function checkTileAvailability(){
 			const tiles = document.querySelectorAll('[data-tile]');
 			const availableTiles = []; 
@@ -155,7 +155,7 @@ export const tic = (function() {
 					availableTiles.push(tile);
 				}
 			});
-			return availableTiles;
+			return { availableTiles };
 		};
 		
 		return { startGame }
