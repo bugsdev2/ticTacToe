@@ -100,7 +100,7 @@ export const tic = (function() {
 				tiles[2].textContent === activePlayer.token && tiles[4].textContent === activePlayer.token && tiles[6].textContent === activePlayer.token ||
 				tiles[0].textContent === activePlayer.token && tiles[3].textContent === activePlayer.token && tiles[6].textContent === activePlayer.token ||
 				tiles[1].textContent === activePlayer.token && tiles[4].textContent === activePlayer.token && tiles[7].textContent === activePlayer.token ||
-				tiles[3].textContent === activePlayer.token && tiles[5].textContent === activePlayer.token && tiles[8].textContent === activePlayer.token) {
+				tiles[2].textContent === activePlayer.token && tiles[5].textContent === activePlayer.token && tiles[8].textContent === activePlayer.token) {
 					return activePlayer.name;
 			}
 		}
