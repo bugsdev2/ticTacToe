@@ -11,11 +11,13 @@
 		<script defer type="module" src="src/js/main.js"></script>
 	</head> 
 	<body class="d-flex justify-content-center align-items-center">
-		<div class="wrapper">
-			<div class="text-center">
-				<button class="start-game btn btn-success">Start New Game</button>
+		<div class="wrapper d-flex flex-column justify-content-center align-items-center">
+			<div class="d-flex justify-content-evenly">
+				<button data-id="aiEasy" class="btn btn-success player me-3">Single Player</button>
+				<button data-id="playerTwo" class="btn btn-success player ms-3">Two Players</button>
+				<button class="start-btn btn btn-success">Start New Game</button>
 			</div>
-			<div class="message-board text-center p-4 fs-2 mb-5"></div>
+			<input type="text" readonly class="message-board text-center fs-3 mb-4 mt-3"/>
 			<div class="board"></div>
 		</div>
 	</body>

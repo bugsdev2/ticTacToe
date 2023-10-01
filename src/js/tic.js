@@ -19,11 +19,26 @@ export const tic = (function() {
 		board.forEach((row, rowIndex) => {
 			row.forEach((tile, tileIndex) => {
 				const tileElem = document.createElement('div');
-				tileElem.dataset.tile = 'Row-' + (rowIndex+1) + ' Tile-' + (tileIndex+1);
+				tileElem.dataset.tile = (rowIndex+1) + '-' + (tileIndex+1);
 				boardElem.appendChild(tileElem);
 			});
 		});
 		
+		// function to clear board
+		function clearBoard() {
+			const tiles = document.querySelectorAll('[data-tile]');
+			tiles.forEach(tile => {
+				tile.textContent = null;
+			});
+		};
+		
+		// function to update the message board
+		function updateNameBoard(message){
+			const messageBoard = document.querySelector('.message-board');
+			messageBoard.value = message;
+		};
+		
+		return { clearBoard, updateNameBoard }
 	})();
 	
 	const GameController = (function(playerOne = 'Player 1', playerTwo = 'Player 2') {
@@ -48,41 +63,50 @@ export const tic = (function() {
 		
 		
 		const boardElem = document.querySelector('.board');
-		const messageBoard = document.querySelector('.message-board');
-		messageBoard.textContent = players[0].name;
 		
-		boardElem.addEventListener('click', updateNameBoard(activePlayer.name));
 		
-		function updateNameBoard(message){
-			messageBoard.textContent = message;
+		
+		boardElem.addEventListener('click', displayController.updateNameBoard(activePlayer.name));
+		
+		// function to get player tile
+		function getPlayerTile(e){
+			const tileElem = e.target;
+			updateTile(tileElem);
+			applyAIEasy();
 		};
 		
-		function updateTile(e) {
-			if (e.target.textContent == '') {
-				e.target.textContent = activePlayer.token;
-				let winner = checkWinner();
+		function updateTile(tileElem) {
+			if (tileElem.textContent == '') {
+				tileElem.textContent = activePlayer.token;
+				let winner = getWinner();
 				if (winner === undefined) {
 					let length = checkTileAvailability().length;
-					if(length == 0) {
-						updateNameBoard('It is a Tie');
+					if(length === 0) {
+						displayController.updateNameBoard('It is a Tie');
 						endGame();
 						boardElem.style.setProperty('opacity', '0.3');
-						button.textContent = 'Start New Game';
-						button.classList.remove('btn-warning');
-						button.classList.add('btn-success');
+						hideStartBtn();
+						showPlayerBtns();
+						startButton.textContent = 'Start New Game';
+						startButton.classList.remove('btn-warning');
+						startButton.classList.add('btn-success');
+						enableUserClick();
 					} else {
 						activePlayer = switchPlayer();
-						updateNameBoard(activePlayer.name);
-						checkGameState();
+						displayController.updateNameBoard(activePlayer.name);
+						enableUserClick();
 					}
 				} else {
 					let won = winner + ' is the Winner'
-					updateNameBoard(won);
+					displayController.updateNameBoard(won);
 					endGame();
+					hideStartBtn();
+					showPlayerBtns();
 					boardElem.style.setProperty('opacity', '0.3');
-					button.textContent = 'Start New Game';
-					button.classList.remove('btn-warning');
-					button.classList.add('btn-success');
+					startButton.textContent = 'Start New Game';
+					startButton.classList.remove('btn-warning');
+					startButton.classList.add('btn-success');
+					enableUserClick();
 				}
 			} else {
 				return;
@@ -90,7 +114,7 @@ export const tic = (function() {
 		};
 		
 		//function to check for winner
-		function checkWinner() {
+		function getWinner() {
 			const tiles = document.querySelectorAll('[data-tile]');
 			if(tiles[0].textContent === activePlayer.token && tiles[1].textContent === activePlayer.token && tiles[2].textContent === activePlayer.token ||
 				tiles[3].textContent === activePlayer.token && tiles[4].textContent === activePlayer.token && tiles[5].textContent === activePlayer.token ||
@@ -106,30 +130,24 @@ export const tic = (function() {
 		
 		// function to start Game
 		function startGame(){
-			if(button.textContent == 'Game Started') return;
-			clearBoard();
+			if(startButton.textContent == 'Game Started') return;
+			displayController.clearBoard();
 			boardElem.style.removeProperty('opacity');
-			button.textContent = 'Game Started';
-			button.classList.remove('btn-success');
-			button.classList.add('btn-warning');
-			boardElem.addEventListener('click', updateNameBoard(activePlayer.name));
-			boardElem.addEventListener('click', updateTile);
-			
+			startButton.textContent = 'Game Started';
+			startButton.classList.remove('btn-success');
+			startButton.classList.add('btn-warning');
+			boardElem.addEventListener('click', displayController.updateNameBoard(activePlayer.name));
+			boardElem.addEventListener('click', getPlayerTile);
 		};
 		
 		// function to end Game
 		function endGame(){
 			
-			boardElem.removeEventListener('click', updateTile);
-			boardElem.removeEventListener('click', updateNameBoard);
+			boardElem.removeEventListener('click', getPlayerTile);
+			boardElem.removeEventListener('click', displayController.updateNameBoard);
 		};
 		
-		function clearBoard() {
-			const tiles = document.querySelectorAll('[data-tile]');
-			tiles.forEach(tile => {
-				tile.textContent = null;
-			});
-		};
+		
 		
 		// function to check the current game state
 		function checkGameState(){
@@ -142,7 +160,6 @@ export const tic = (function() {
 					gameState.push(tile.textContent);
 				}
 			});
-			console.log(gameState);
 		};
 		
 		
@@ -155,15 +172,92 @@ export const tic = (function() {
 					availableTiles.push(tile);
 				}
 			});
-			return { availableTiles };
+			return availableTiles;
 		};
 		
-		return { startGame }
 		
+		// ai player function (easy mode using random function)
+		function aiEasy(){
+			let availableTiles = checkTileAvailability();
+			let selectedTile = availableTiles[randomize(availableTiles.length)];
+			setTimeout(()=> {
+				updateTile(selectedTile);
+			}, 1000);
+		};
+		
+		function randomize(num) {
+			return Math.floor(Math.random()*num);
+		};
+		
+		// implement aiEasy
+		function applyAIEasy(){
+			
+			const messageBoard = document.querySelector('.message-board');
+			const event = new Event('input');
+			messageBoard.addEventListener('input', () => {
+				if (messageBoard.value == 'Computer') {
+					aiEasy();
+					disableUserClick();
+				}
+			}, { once: true });
+			messageBoard.dispatchEvent(event);
+		};
+		
+		
+		function disableUserClick(){
+			document.addEventListener('click', disableClick) 
+		};
+		
+		function enableUserClick(){
+			document.removeEventListener('click', disableClick);
+		};
+		
+		function disableClick(e){
+			e.stopPropagation();
+			e.preventDefault();	
+		};
+		
+		return { startGame, players, aiEasy }
+
 	})();
 	
-	const button = document.querySelector('button');
-	button.addEventListener('click', GameController.startGame);
+	const startButton = document.querySelector('.start-btn');
+	startButton.addEventListener('click', GameController.startGame);
 	
+	const playerButtons = document.querySelectorAll('.player');
+		playerButtons.forEach(button => {
+			button.addEventListener('click', updatePlayerInfo);
+		});
+		
+	function hideStartBtn(){
+		startButton.style.setProperty('display', 'none');
+		};
+		
+	function showStartBtn(){
+		startButton.style.setProperty('display', 'block');
+	};
+		
+		
+	function hidePlayerBtns(){
+		playerButtons[0].style.setProperty('display', 'none');
+		playerButtons[1].style.setProperty('display', 'none');
+	};
+	
+	function showPlayerBtns(){
+		playerButtons[0].style.setProperty('display', 'block');
+		playerButtons[1].style.setProperty('display', 'block');
+	};
+		
+	function updatePlayerInfo(e){
+		if(e.target.dataset['id'] === 'aiEasy') {
+			hidePlayerBtns();
+			showStartBtn();
+			GameController.players[1].name = 'Computer';
+		} else {
+			hidePlayerBtns();
+			showStartBtn();
+			GameController.players[1].name = 'Player 2';
+		}
+	};
 	
 })();
