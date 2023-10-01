@@ -29,8 +29,8 @@ long_line_column=72
 [files]
 current_page=1
 FILE_NAME_0=943;HTML;0;EUTF-8;1;1;0;%2Fhome%2Fbugs%2FProjects%2FticTacToe%2Findex.html;0;4
-FILE_NAME_1=5876;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Fbugs%2FProjects%2FticTacToe%2Fsrc%2Fjs%2Ftic.js;0;4
-FILE_NAME_2=236;CSS;0;EUTF-8;1;1;0;%2Fhome%2Fbugs%2FProjects%2FticTacToe%2Fsrc%2Fstyle.css;0;4
+FILE_NAME_1=4861;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Fbugs%2FProjects%2FticTacToe%2Fsrc%2Fjs%2Ftic.js;0;4
+FILE_NAME_2=252;CSS;0;EUTF-8;1;1;0;%2Fhome%2Fbugs%2FProjects%2FticTacToe%2Fsrc%2Fstyle.css;0;4
 
 [VTE]
 last_dir=/home/bugs/Projects/ticTacToe/src/js

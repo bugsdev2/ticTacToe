@@ -85,16 +85,15 @@ export const tic = (function() {
 						displayController.updateNameBoard('It is a Tie');
 						endGame();
 						boardElem.style.setProperty('opacity', '0.3');
+						activePlayer = switchPlayer();
 						hideStartBtn();
 						showPlayerBtns();
 						startButton.textContent = 'Start New Game';
 						startButton.classList.remove('btn-warning');
 						startButton.classList.add('btn-success');
-						//~ enableUserClick();
 					} else {
 						activePlayer = switchPlayer();
 						displayController.updateNameBoard(activePlayer.name);
-						//~ enableUserClick();
 					}
 				} else {
 					let won = winner + ' is the Winner'
@@ -106,7 +105,6 @@ export const tic = (function() {
 					startButton.textContent = 'Start New Game';
 					startButton.classList.remove('btn-warning');
 					startButton.classList.add('btn-success');
-					//~ enableUserClick();
 				}
 			} else {
 				return;
@@ -136,7 +134,13 @@ export const tic = (function() {
 			startButton.textContent = 'Game Started';
 			startButton.classList.remove('btn-success');
 			startButton.classList.add('btn-warning');
-			boardElem.addEventListener('click', displayController.updateNameBoard(activePlayer.name));
+			// to ensure that the first move is done by Player 1
+			if(checkTileAvailability().length === 9) {
+				displayController.updateNameBoard('Player 1');
+				activePlayer = players[0];
+			} else {
+				boardElem.addEventListener('click', displayController.updateNameBoard(activePlayer.name));
+			}
 			boardElem.addEventListener('click', getPlayerTile);
 		};
 		
