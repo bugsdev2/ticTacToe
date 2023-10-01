@@ -13,9 +13,10 @@ body {
 	grid-template-rows: repeat(3, 1fr);
 	justify-items: space-between;
 	transition: 2s;
-/*
-	border: 2px solid red;
-*/
+}
+
+.board.disabled {
+	pointer-events: none;
 }
 
 .message-board {

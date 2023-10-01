@@ -90,11 +90,11 @@ export const tic = (function() {
 						startButton.textContent = 'Start New Game';
 						startButton.classList.remove('btn-warning');
 						startButton.classList.add('btn-success');
-						enableUserClick();
+						//~ enableUserClick();
 					} else {
 						activePlayer = switchPlayer();
 						displayController.updateNameBoard(activePlayer.name);
-						enableUserClick();
+						//~ enableUserClick();
 					}
 				} else {
 					let won = winner + ' is the Winner'
@@ -106,7 +106,7 @@ export const tic = (function() {
 					startButton.textContent = 'Start New Game';
 					startButton.classList.remove('btn-warning');
 					startButton.classList.add('btn-success');
-					enableUserClick();
+					//~ enableUserClick();
 				}
 			} else {
 				return;
@@ -182,7 +182,9 @@ export const tic = (function() {
 			let selectedTile = availableTiles[randomize(availableTiles.length)];
 			setTimeout(()=> {
 				updateTile(selectedTile);
+				enableUserClick();
 			}, 1000);
+			
 		};
 		
 		function randomize(num) {
@@ -196,8 +198,8 @@ export const tic = (function() {
 			const event = new Event('input');
 			messageBoard.addEventListener('input', () => {
 				if (messageBoard.value == 'Computer') {
-					aiEasy();
 					disableUserClick();
+					aiEasy();
 				}
 			}, { once: true });
 			messageBoard.dispatchEvent(event);
@@ -205,17 +207,13 @@ export const tic = (function() {
 		
 		
 		function disableUserClick(){
-			document.addEventListener('click', disableClick) 
+			boardElem.classList.add('disabled');
 		};
 		
 		function enableUserClick(){
-			document.removeEventListener('click', disableClick);
+			boardElem.classList.remove('disabled');;
 		};
 		
-		function disableClick(e){
-			e.stopPropagation();
-			e.preventDefault();	
-		};
 		
 		return { startGame, players, aiEasy }
 
